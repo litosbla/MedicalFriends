@@ -13,7 +13,7 @@ const schema = a.schema({
     }),
   Empleado: a
     .model({
-      tipoDocumento: a.enum(["CEDULA CIUDADANIA", "CEDULA EXTRANJERIA", "OTRA"]),
+      tipoDocumento: a.enum(["CEDULA_CIUDADANIA", "CEDULA_EXTRANJERIA", "OTRA"]),
       numeroDocumento: a.id().required(),
       nombre: a.string(),
       email: a.email(),
