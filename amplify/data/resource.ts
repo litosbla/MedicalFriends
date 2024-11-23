@@ -10,9 +10,26 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
-});
+    }),
+  Empleado: a
+    .model({
+      tipoDocumento: a.enum(["CEDULA CIUDADANIA", "CEDULA EXTRANJERIA", "OTRA"]),
+      numeroDocumento: a.id().required(),
+      nombre: a.string(),
+      email: a.email(),
+      tipoForm: a.enum(["A","B"]),
+      empresaId: a.id(),
+      empresa: a.belongsTo("Empresa","empresaId") 
+    }).identifier(["numeroDocumento"]),
+  Empresa: a
+    .model({
+      empleados: a.hasMany("Empleado","empresaId"),
+      nit: a.id().required(),
+      nombre: a.string(),
+      plan: a.enum(["BASICO","PREMIUM"]),
+    }).identifier(["nit"]),
+    
+}).authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
 

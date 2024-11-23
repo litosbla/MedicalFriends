@@ -1,0 +1,65 @@
+.homescreen{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color:rgba(65, 221, 37, 1);
+    
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    min-height: 60px;
+    align-items: center;
+    padding: 0 50px;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: slideIn 1s ease-in-out;
+    animation-delay: 1s;
+
+}
+.imagenSombra {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; 
+}
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+   
+}
+.subtitulo{
+  font-size: 1rem;          /* Tamaño de la fuente */
+  font-weight: bold;        /* o valores: 100 a 900 */
+  line-height: 0;         /* Espaciado entre líneas */
+  letter-spacing: 1px;      /* Espaciado entre letras */
+  text-transform: uppercase;
+  color: white;
+
+}
+
+.sectionTitles{
+    height:500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+ 
+@keyframes slideIn {
+    from {
+      top: -100%;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+   }
