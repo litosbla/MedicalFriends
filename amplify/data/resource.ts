@@ -1,4 +1,7 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { CfnInstanceStorageConfig } from "aws-cdk-lib/aws-connect";
+import { CodeSigningConfig } from "aws-cdk-lib/aws-lambda";
+import { prependListener } from "process";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -24,11 +27,57 @@ const schema = a.schema({
   Empresa: a
     .model({
       empleados: a.hasMany("Empleado","empresaId"),
+      sede: a.hasMany("Sedes","empresaId"),
       nit: a.id().required(),
       nombre: a.string(),
       plan: a.enum(["BASICO","PREMIUM"]),
     }).identifier(["nit"]),
-    
+  Sedes: a
+    .model({
+      citas: a.hasMany("Citas","sedeid"),
+      nombre: a.string(),
+      direccion: a.string(),
+      empresaId: a.id(),
+      empresa: a.belongsTo("Empresa","empresaId"),
+      idsedes: a.id().required(),
+    }).identifier(["idsedes"]),
+  Citas: a
+    .model({
+      fecha: a.date(),
+      estado: a.enum(["ACTIVA","DESACTIVADA"]),
+      otp: a.id().required(),
+      sedeId: a.id(),
+      sede: a.belongsTo("Sedes","sedeId"),
+      contadorFormularios: a.float().default(0),
+      contadorCitas: a.float().default(0),
+      formulario: a.hasMany("Formulario","citaId")
+    }).identifier(["otp"]),
+  Formulario: a
+    .model({
+      citaId: a.id(),
+      cita: a.belongsTo("Citas","citaId"),
+      documento: a.id().required(),
+      preguntasBasicas: a.customType({
+        nombre: a.string(),
+        tipo: a.enum(["text","number","date"]),
+      }),
+      preguntasA: a.customType({
+        nombre: a.string(),
+        tipo: a.enum(["text","number","date"]),
+      }),
+      preguntasB: a.customType({
+        nombre: a.string(),
+        tipo: a.enum(["text","number","date"]),
+      }),
+      preguntasExtralaboral: a.customType({
+        nombre: a.string(),
+        tipo: a.enum(["text","number","date"]),
+      }),
+      preguntasEstres: a.customType({
+        nombre: a.string(),
+        tipo: a.enum(["text","number","date"]),
+      }),
+    }).secondaryIndexes((index) => [index("documento").queryField("listarFormPorDocumento")])
 }).authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;

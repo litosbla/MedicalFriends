@@ -1,16 +1,17 @@
 "use client"
-import style from './landingcomponents.module.css'
+
 import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button';
 export default function ButtonsLinkForm() {
   const router = useRouter()
   return (
-    <div className={style.contenedorBotones}>
-      <button onClick={() => router.push('/puestotrab')}>
+    <div className='flex gap-10 mt-10'>
+      <Button onClick={() => router.push('/puestotrab')} className='rounded-xl w-[200px] h-[50px] text-lg'>
         Puesto de Trabajo
-      </button>
-      <button onClick={() => router.push('/riesgopsi')}>
-        Rieso Psicosocial
-      </button>
+      </Button>
+      <Button onClick={() => router.push('/riesgopsi')} className='rounded-xl w-[200px] h-[50px] text-lg'>
+        Riesgo Psicosocial
+      </Button>
     </div>
   );
 }
