@@ -34,7 +34,7 @@ const schema = a.schema({
     }).identifier(["nit"]),
   Sedes: a
     .model({
-      citas: a.hasMany("Citas","sedeid"),
+      citas: a.hasMany("Citas","sedeId"),
       nombre: a.string(),
       direccion: a.string(),
       empresaId: a.id(),
