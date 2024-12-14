@@ -42,7 +42,7 @@ import { useState } from "react";
       }: CardProps
   ) {
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
     const totalPages = Math.ceil(chartData.length / itemsPerPage);
 
     // Obtener los elementos de la página actual
@@ -52,7 +52,7 @@ import { useState } from "react";
   
     // Calcular el total de todos los elementos
 
-  
+    
     // Manejar el cambio de página
     const handlePageChange = (pageNumber : number) => {
       setCurrentPage(pageNumber);
@@ -72,7 +72,7 @@ import { useState } from "react";
           </TableRow>
         </TableHeader>
         <TableBody>
-          {chartData.map((empleado) => (
+          {currentItems.map((empleado) => (
             <TableRow key={empleado.numeroDocumento}>
               <TableCell className="font-medium">{empleado.numeroDocumento}</TableCell>
               <TableCell>{empleado.tipoDocumento}</TableCell>

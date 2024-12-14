@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
@@ -16,6 +16,8 @@ import { DatePickerForm } from '@/components/datepicker';
 import { DialogCrearEmpleados } from '@/components/empresas/dialogCrearEmpleados';
 import { useToast } from "@/hooks/use-toast"
 import { DialogImportarEmpleados } from '@/components/empresas/dialogImportarEmpleados';
+import { DialogCrearSedes } from '@/components/empresas/dialogCrearSedes';
+import SedeComponent from '@/components/empresas/sedeComponent';
 
 interface Option {
   value: string;
@@ -65,57 +67,6 @@ const chartData6 = [
   { riesgo: "bajo", personas: 80, fill: "var(--color-bajo)" },
   { riesgo: "sinRiesgo", personas: 75, fill: "var(--color-sinRiesgo)" }
 ]
-const empleados1 =  [
-  {
-    tipoDocumento: "DNI",
-    numeroDocumento: 45678912,
-    nombre: "Ana María López",
-    email: "ana.lopez@email.com",
-    tipoForm: "Formulario A"
-  },
-  {
-    tipoDocumento: "Pasaporte",
-    numeroDocumento: 78234567,
-    nombre: "Carlos Rodríguez",
-    email: "carlos.rodriguez@email.com",
-    tipoForm: "Formulario B"
-  },
-  {
-    tipoDocumento: "DNI",
-    numeroDocumento: 34567891,
-    nombre: "María García",
-    email: "maria.garcia@email.com",
-    tipoForm: "Formulario A"
-  },
-  {
-    tipoDocumento: "CE",
-    numeroDocumento: 89123456,
-    nombre: "Juan Pablo Martínez",
-    email: "juan.martinez@email.com",
-    tipoForm: "Formulario C"
-  },
-  {
-    tipoDocumento: "DNI",
-    numeroDocumento: 23456789,
-    nombre: "Laura Sánchez",
-    email: "laura.sanchez@email.com",
-    tipoForm: "Formulario B"
-  },
-  {
-    tipoDocumento: "Pasaporte",
-    numeroDocumento: 67891234,
-    nombre: "Diego Torres",
-    email: "diego.torres@email.com",
-    tipoForm: "Formulario A"
-  },
-  {
-    tipoDocumento: "CE",
-    numeroDocumento: 12345678,
-    nombre: "Sofia Ramírez",
-    email: "sofia.ramirez@email.com",
-    tipoForm: "Formulario C"
-  }
-];
 
 const client = generateClient<Schema>();
 const options = [
@@ -128,7 +79,9 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     const {nit} = params
     const [empresa, setEmpresa] = useState<Array<Schema["Empresa"]["type"]>>([]);
     const [empleados, setEmpleados] = useState<Array<Schema["Empleado"]["type"]>>([]);
-    
+    const [sedes,setSedes] = useState<Array<Schema["Sedes"]["type"]>>([]);
+    const [citas,setCitas] = useState<Array<Schema["Citas"]["type"]>>([]);
+
     function listEmpleados() {
       client.models.Empleado.observeQuery({
         filter: {
@@ -152,12 +105,30 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
             next: (data) => setEmpresa([...data.items]),
           });
     }
-  
+
+    function listSedes() {
+      client.models.Sedes.observeQuery({
+        filter: {
+          empresaId: {
+            eq: nit
+          }
+        }
+      }).subscribe({
+        next: (data) => setSedes([...data.items]),
+      });
     
+    }
+
+    function listCitas() {
+      client.models.Citas.observeQuery().subscribe({
+        next: (data) => setCitas([...data.items]),
+      });}
   
     useEffect(() => {
       listEmpleados();
       listEmpresa();
+      listSedes();
+      listCitas();
     }, []);
     
     const [isOpen, setIsOpen] = useState(false);
@@ -185,7 +156,7 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
     };
   
     const crearEmpleado = (data: any) => {
-      console.log(empleados)
+
       const empleadoExistente = empleados.find(
         emp => emp.numeroDocumento === data.numeroDocumento
       );
@@ -209,7 +180,20 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
           className: "bg-green-500 text-white"
       });
     }
-
+    const crearSede = (data: any) => {
+      console.log(data);
+      const sedeData ={
+        ...data,
+        empresaId: nit,
+        idsedes: nit + sedes.length
+      }
+      client.models.Sedes.create(sedeData);
+      toast({
+        title: "¡Éxito!",
+        description: "El empleado fue creado correctamente",
+        className: "bg-green-500 text-white"
+    });
+    }
 
     const handleExcelData = async (data: any[]) => {
       // Aquí puedes manejar los datos del Excel
@@ -238,7 +222,56 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
         });
       }
     };
- 
+
+    function verificarOTPExistente(nuevoOTPver : string) {
+      return citas.some(cita => cita.otp === nuevoOTPver);
+    }
+
+    function generarOTPUnico( longitud = 6) {
+      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let nuevoOTP;
+      do {
+          nuevoOTP = '';
+          for (let i = 0; i < longitud; i++) {
+              const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+              nuevoOTP += caracteres[indiceAleatorio];
+          }
+      } while (verificarOTPExistente(nuevoOTP));
+  
+      return nuevoOTP;
+    }
+    
+    const handleTogglePress =  async (data:any) => {
+      const citasede = citas.filter(cita => cita.sedeId == data.idsedes);
+      const citaActiva = citasede.find(cita => cita.estado === "ACTIVA");
+      
+
+      try {
+        if (data.checked) {
+          client.models.Citas.create({
+            fecha: new Date().toISOString().split('T')[0],
+            estado: "ACTIVA",
+            otp: generarOTPUnico(),
+            sedeId: data.idsedes,
+            contadorFormularios: 0,
+            contadorCitas: citasede.length,
+          });
+        } else {
+          if (!citaActiva) {
+            console.error('No hay citas activas');
+            return;
+          }
+          client.models.Citas.update({
+            otp: citaActiva.otp,
+            estado: "DESACTIVADA"
+          });
+          console.log('Cita desactivada');
+        }
+      } catch (error) {
+        console.error('Error al crear la cita:', error);
+        // Aquí deberías manejar el error apropiadamente (mostrar un mensaje al usuario, etc.)
+      }
+    };
   return (
     <div>
       {empresa.length > 0 ? (
@@ -256,20 +289,15 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                   <div className="relative w-64">
                     {
                       isEmpleado ? (
-                          <div className='flex'>
-
+                          <div className='flex gap-3'>
                             <DialogImportarEmpleados onDataLoad={handleExcelData} />
                           
                             <DialogCrearEmpleados onFormSubmit={crearEmpleado}/>
                           </div>
                       ) : isCita ? (
-                        <button
-                            type="button"
-                            className="w-full px-4 py-2 text-left bg-white border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 flex justify-between items-center"
-                            onClick={() => setIsOpenCita(!isOpenCita)}
-                            >
-                            Nueva Cita
-                          </button>
+                        <div className='flex gap-3'>
+                            <DialogCrearSedes onFormSubmit={crearSede}/>
+                        </div>
                       ):
                       (
                         <button
@@ -290,24 +318,19 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                     
                     }
                       
-                      {isOpenCita && (
-                        <div className="absolute z-10 mt-1 bg-white shadow-lg overflow-auto">
-                          <DatePickerForm />
+                    {isOpen && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                        {options.map((option) => (
+                            <div
+                            key={option.value}
+                            onClick={() => handleSelect(option)}
+                            className="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-colors"
+                            >
+                            {option.label}
+                            </div>
+                        ))}
                         </div>
-                      )}
-                      {isOpen && (
-                          <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-                          {options.map((option) => (
-                              <div
-                              key={option.value}
-                              onClick={() => handleSelect(option)}
-                              className="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-colors"
-                              >
-                              {option.label}
-                              </div>
-                          ))}
-                          </div>
-                      )}
+                    )}
                   </div>
                   {/*  controladores de navegacion */}
                   <div className='flex gap-3'>
@@ -339,36 +362,55 @@ function PaginaEmpresa({params}:{params:{nit:string}}) {
                   </div>
                 </div>
                 {isEmpleado ? (
-                  <div className='w-full mt-4'> 
-               
-                    <TableComponent chartData={empleados} />
-         
-                  </div>
+                  empleados.length > 0 ? (
+                      <div className='w-full mt-4'> 
+                  
+                        <TableComponent chartData={empleados} />
+            
+                      </div>):
+                      (
+                        <div className='w-full h-[600px] flex items-center justify-center'>No hay empleados aún</div>
+                      )
                   ): isCita ? (
-                    <div className='w-full flex flex-wrap mt-4 gap-4'> 
-                      <div className='w-[48%] border rounded-md h-[100px] p-4 flex shadow-[0_4px_12px_rgba(0,255,0,0.4)] items-center'>
-                        <div className='w-full'>
-                          <h1 className='text-xl font-medium'>ACTIVA</h1> 
-                          <div className='flex justify-between'>
-                            <span> 26 de noviembre de 2024</span>
-                            <span className="text-gray-500 text-sm mr-3">432-111</span>
-                          </div>
-                         
-                        </div>
-                        <DropdownThreeDots/>
+                    sedes.length > 0 ? (
+                      <div className='w-full flex flex-wrap mt-4 gap-4'> 
+                        
+                        {sedes.map((sede) => {
+                            const citasSede = citas.filter(cita => cita.sedeId === sede.idsedes);
+                            
+                            const citaMaxContador = citasSede.length > 0 
+                                ? citasSede.reduce((max, cita) => 
+                                    // Verificamos que tanto max como cita tengan contadorCitas
+                                    (cita?.contadorCitas ?? 0) > (max?.contadorCitas ?? 0) ? cita : max,
+                                    citasSede[0]
+                                  )
+                                : null;
+
+                            if (citaMaxContador) {
+                                return (
+                                    <SedeComponent 
+                                        key={sede.idsedes} 
+                                        onTogglePress={handleTogglePress}
+                                        data={sede}
+                                        cita={citaMaxContador}
+                                    />
+                                );
+                            }
+
+                            return (
+                                <SedeComponent 
+                                    key={sede.idsedes} 
+                                    onTogglePress={handleTogglePress}
+                                    data={sede}
+                                />
+                            );
+                        })}
+
                       </div>
-                      <div className='w-[48%] border rounded-md h-[100px] p-4 flex shadow-[0_4px_12px_rgba(255,165,0,0.4)] items-center'>
-                        <div className='w-full'>
-                          <h1 className='text-xl font-medium'>DESACTIVADA</h1> 
-                          <div className='flex justify-between'>
-                            <span> 26 de noviembre de 2024</span>
-                            <span className="text-gray-500 text-sm mr-3">110-202</span>
-                          </div>
-                         
-                        </div>
-                        <DropdownThreeDots/>
-                      </div>
-                    </div>
+                    ) : (
+                      <div className='w-full h-[600px] flex items-center justify-center'>No hay sedes aún</div>
+                    )
+    
                   ): (selectedOption.value === 'bateria') ? (
                     <div className='flex flex-col w-full gap-4 mt-4'>
                       <div className='flex w-full gap-4'>

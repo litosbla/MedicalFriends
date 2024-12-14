@@ -1,5 +1,11 @@
 "use client"
-import React, { useState } from 'react'
+
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "@/amplify/data/resource";
+import { Amplify } from "aws-amplify";
+import outputs from "@/amplify_outputs.json";
+
+import React, { useState, useEffect } from 'react'
 import {
   InputOTP,
   InputOTPGroup,
@@ -9,27 +15,92 @@ import {
 import { Button } from "@/components/ui/button"
 
 import { useRouter } from 'next/navigation'
+
+
+Amplify.configure(outputs);
+
+const client = generateClient<Schema>();
+
 export default function Page() {
   const router = useRouter()
   const [value, setValue] = useState('');
   const [valueOtp, setValueOtp] = useState("");
-  const [savedValueOtp, setSavedValueOtp] = useState("");
+  
 
-  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleDocumento = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setValue(event.target.value);
   };
 
-  const handleComplete = (valueOtp: any) => {
-    setValue(value);
-  };
 
-  const handleSave = () => {
-    setSavedValueOtp(valueOtp);
-    if (valueOtp === '432111' && value === '45678912') {
-      setSavedValueOtp(valueOtp);
-      router.push('/riesgopsi/formulario'); }
-      else {alert('Los datos no son correctos')}
-    
+
+  const handleSave = async () => {
+    try {
+      // Validar que los valores no estén vacíos
+      if (!valueOtp || !value) {
+        alert('Por favor complete todos los campos requeridos');
+        return;
+      }
+  
+      // Intentar obtener la cita y el empleado
+      let cita, empleado, sede;
+  
+      try {
+        cita = await client.models.Citas.get({ otp: valueOtp });
+        if (!cita) {
+          alert('No se encontró la cita con el OTP proporcionado');
+          return;
+        }
+      } catch (error) {
+        console.error('Error al buscar la cita:', error);
+        alert('Error al verificar la cita. Por favor intente nuevamente');
+        return;
+      }
+  
+      try {
+        empleado = await client.models.Empleado.get({ numeroDocumento: value });
+        if (!empleado) {
+          alert('No se encontró el empleado con el número de documento proporcionado');
+          return;
+        }
+      } catch (error) {
+        console.error('Error al buscar el empleado:', error);
+        alert('Error al verificar el empleado. Por favor intente nuevamente');
+        return;
+      }
+
+      try {
+        sede = await client.models.Sedes.get({ idsedes: cita.data?.sedeId as string });
+        if (!sede) {
+          alert('No se encontró la sede de la cita');
+          return;
+        }
+      } catch (error) {
+        console.error('Error al buscar la sede:', error);
+        alert('Error al verificar la sede. Por favor intente nuevamente');
+        return;
+      }
+  
+      // Realizar validaciones adicionales
+      const validaciones = {
+        citaActiva: cita.data?.estado === 'ACTIVA',
+        coincideEmpleado: sede.data?.empresaId === empleado.data?.empresaId,
+      };
+  
+      // Verificar todas las validaciones
+      if (Object.values(validaciones).every(v => v)) {
+        router.push(`/riesgopsi/${cita.data?.otp}/${empleado.data?.numeroDocumento}/${empleado.data?.tipoForm}`);
+      } else {
+        let mensaje = 'Los datos no son correctos:\n';
+        if (!validaciones.citaActiva) mensaje += '- La cita no está activa\n';
+        if (!validaciones.coincideEmpleado) mensaje += '- La cita no corresponde al empleado\n';
+       
+        alert(mensaje);
+      }
+  
+    } catch (error) {
+      console.error('Error en handleSave:', error);
+      alert('Ocurrió un error inesperado. Por favor intente nuevamente');
+    }
   };
 
   return (
@@ -40,7 +111,7 @@ export default function Page() {
         <input
           type="number"
           value={value}
-          onChange={handleChange}
+          onChange={handleDocumento}
           placeholder="1000000"
           className="w-full px-4 py-3 border border-gray-200 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all bg-gray-50"
         />
@@ -53,9 +124,7 @@ export default function Page() {
           <InputOTP 
             maxLength={6} 
             value={valueOtp} 
-            onChange={setValueOtp}
-            onComplete={handleComplete}
-            
+            onChange={setValueOtp} 
           >
             <InputOTPGroup>
               <InputOTPSlot index={0} className="bg-white border-gray-200 focus:border-blue-300 focus:ring-blue-100 text-black" />
@@ -75,16 +144,10 @@ export default function Page() {
           onClick={handleSave}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition-colors"
         >
-          Guardar Código
+          Ingresar
         </Button>
         
-        {savedValueOtp && (
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
-            <p className="text-sm text-blue-600">
-              Código guardado: <span className="font-medium">{savedValueOtp}</span>
-            </p>
-          </div>
-        )}
+
       </div>
     </div>
     </div>

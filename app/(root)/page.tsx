@@ -26,7 +26,7 @@ export default function App() {
         <h1 className="text-green-400 text-xl">Bienestar laboral, éxito empresarial</h1>
 
         <ButtonsLinkForm/>
-        {/* tienes que agregar aca mejor Carousel shadcn */}
+       
       </section>
     </main>
   );
