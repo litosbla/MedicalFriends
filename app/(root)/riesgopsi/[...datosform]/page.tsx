@@ -15,11 +15,6 @@ Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
 
-type formMainProps ={
-  otp: string;
-  numeroDocumento: string;
-  tipoform: string;
-}
 
 function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     const [otp, numeroDocumento, tipoForm] = params.datosform;

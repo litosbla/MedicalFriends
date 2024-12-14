@@ -127,7 +127,7 @@ const schema = a.schema({
         "Mixto",
         "Variable"
       ])
-    }).identifier(["formularioId"]).secondaryIndexes((index) => [index("documento").queryField("listarFormPorDocumento")]),
+    }).identifier(["formularioId"]),
     FormularioIntralaboralA: a
     .model({
       citaIdA: a.id().required(),
@@ -258,7 +258,7 @@ const schema = a.schema({
       p122: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
       p123: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
       servicioCliente: a.enum(["si", "no"]),
-    }).identifier(["formularioId"]).secondaryIndexes((index) => [index("documento").queryField("listarFormPorDocumento")])
+    }).identifier(["formularioId"])
 }).authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
