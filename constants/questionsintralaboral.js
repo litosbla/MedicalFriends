@@ -1283,7 +1283,181 @@
       }
     ]
 };
-      
+
+export const extralaboral = {
+    sections: [
+      {
+        title: "Condiciones de la zona de vivienda",
+        questions: [
+          {
+            id: "q1",
+            text: "Es fácil trasportarme entre mi casa y el trabajo",
+            number: 1
+          },
+          {
+            id: "q2",
+            text: "Tengo que tomar varios medios de transporte para llegar a mi lugar de trabajo",
+            number: 2
+          },
+          {
+            id: "q3",
+            text: "Paso mucho tiempo viajando de ida y regreso al trabajo",
+            number: 3
+          },
+          {
+            id: "q4",
+            text: "Me trasporto cómodamente entre mi casa y el trabajo",
+            number: 4
+          },
+          {
+            id: "q5",
+            text: "La zona donde vivo es segura",
+            number: 5
+          },
+          {
+            id: "q6",
+            text: "En la zona donde vivo se presentan hurtos y mucha delincuencia",
+            number: 6
+          },
+          {
+            id: "q7",
+            text: "Desde donde vivo me es fácil llegar al centro médico donde me atienden",
+            number: 7
+          },
+          {
+            id: "q8",
+            text: "Cerca a mi vivienda las vías están en buenas condiciones",
+            number: 8
+          },
+          {
+            id: "q9",
+            text: "Cerca a mi vivienda encuentro fácilmente transporte",
+            number: 9
+          },
+          {
+            id: "q10",
+            text: "Las condiciones de mi vivienda son buenas",
+            number: 10
+          },
+          {
+            id: "q11",
+            text: "En mi vivienda hay servicios de agua y luz",
+            number: 11
+          },
+          {
+            id: "q12",
+            text: "Las condiciones de mi vivienda me permiten descansar cuando lo requiero",
+            number: 12
+          },
+          {
+            id: "q13",
+            text: "Las condiciones de mi vivienda me permiten sentirme cómodo",
+            number: 13
+          }
+        ]
+      },
+      {
+        title: "Vida fuera del trabajo",
+        questions: [
+          {
+            id: "q14",
+            text: "Me queda tiempo para actividades de recreación",
+            number: 14
+          },
+          {
+            id: "q15",
+            text: "Fuera del trabajo tengo tiempo suficiente para descansar",
+            number: 15
+          },
+          {
+            id: "q16",
+            text: "Tengo tiempo para atender mis asuntos personales y del hogar",
+            number: 16
+          },
+          {
+            id: "q17",
+            text: "Tengo tiempo para compartir con mi familia o amigos",
+            number: 17
+          },
+          {
+            id: "q18",
+            text: "Tengo buena comunicación con las personas cercanas",
+            number: 18
+          },
+          {
+            id: "q19",
+            text: "Las relaciones con mis amigos son buenas",
+            number: 19
+          },
+          {
+            id: "q20",
+            text: "Converso con personas cercanas sobre diferentes temas",
+            number: 20
+          },
+          {
+            id: "q21",
+            text: "Mis amigos están dispuestos a escucharme cuando tengo problemas",
+            number: 21
+          },
+          {
+            id: "q22",
+            text: "Cuento con el apoyo de mi familia cuando tengo problemas",
+            number: 22
+          },
+          {
+            id: "q23",
+            text: "Puedo hablar con personas cercanas sobre las cosas que me pasan",
+            number: 23
+          },
+          {
+            id: "q24",
+            text: "Mis problemas personales o familiares afectan mi trabajo",
+            number: 24
+          },
+          {
+            id: "q25",
+            text: "La relación con mi familia cercana es cordial",
+            number: 25
+          },
+          {
+            id: "q26",
+            text: "Mis problemas personales o familiares me quitan la energía que necesito para trabajar",
+            number: 26
+          },
+          {
+            id: "q27",
+            text: "Los problemas con mis familiares los resolvemos de manera amistosa",
+            number: 27
+          },
+          {
+            id: "q28",
+            text: "Mis problemas personales o familiares afectan mis relaciones en el trabajo",
+            number: 28
+          }
+        ]
+      },
+      {
+        title: "Aspectos económicos",
+        questions: [
+          {
+            id: "q29",
+            text: "El dinero que ganamos en el hogar alcanza para cubrir los gastos básicos",
+            number: 29
+          },
+          {
+            id: "q30",
+            text: "Tengo otros compromisos económicos que afectan mucho el presupuesto familiar",
+            number: 30
+          },
+          {
+            id: "q31",
+            text: "En mi hogar tenemos deudas difíciles de pagar",
+            number: 31
+          }
+        ]
+      }
+    ]
+  }
   
   export const scaleOptions = [
     { value: "siempre", label: "Siempre" },

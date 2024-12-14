@@ -42,8 +42,8 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     }
 
     const [personales, setPersonales] = useState(false);
-    const [intralaboral, setIntralaboral] = useState(true);
-    const [extralaboral, setExtralaboral] = useState(false);
+    const [intralaboral, setIntralaboral] = useState(false);
+    const [extralaboral, setExtralaboral] = useState(true);
     const [estres, setEstres] = useState(false);
 
   return (
@@ -51,8 +51,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       <Link href={"/"} className="fixed top-6 left-6 text-black flex items-center">
           <Home size={24} className="text-green-500 mr-3" />  Volver al inicio
       </Link>
-      {/* "{personales && (<FormPersonales onHitSubmit={subirPersonales} />)}" */}
-      {/* '{intralaboral && ( <FormIntralaboral onHitSubmit={subirIntralaboralA} titulo='Formulario Intralaboral A' surveyData={intralaboralA} scaleOptions={scaleOptions} />)}' */}
+      {personales && (<FormPersonales onHitSubmit={subirPersonales} />)}
       {intralaboral && (
         tipoForm === 'A' ? (
           <FormIntralaboral onHitSubmit={subirIntralaboralA} titulo='Formulario Intralaboral A' surveyData={intralaboralA} scaleOptions={scaleOptions} />
@@ -61,6 +60,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         )
       )
       }
+      {extralaboral && (<div>Formulario Extralaboral</div>)}
      
 
 

@@ -97,7 +97,7 @@ const FormSchema = z.object({
         "Tecnico_tecnológico_completo",
         "Profesional_incompleto",
         "Profesional_completo",
-        "Carrera militar_policía",
+        "Carrera_militar_policía",
         "Post_grado_incompleto",
         "Post_grado_completo"
     ], {
