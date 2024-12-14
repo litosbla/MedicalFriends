@@ -58,8 +58,7 @@ const schema = a.schema({
     .model({
       citaId: a.id().required(),
       cita: a.belongsTo("Citas","citaId"),
-      documento: a.id().required(),
-      empleado: a.belongsTo("Empleado","documento"),
+      documento: a.id(),
       formularioId: a.id().required(),
       sexo: a.enum(["Masculino", "Femenino"]),
       anoNacimiento: a.string(),
@@ -134,7 +133,6 @@ const schema = a.schema({
       citaIdA: a.id().required(),
       cita: a.belongsTo("Citas","citaIdA"),
       documento: a.id().required(),
-      empleado: a.belongsTo("Empleado","documento"),
       formularioId: a.id().required(),
       p1: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
       p2: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
