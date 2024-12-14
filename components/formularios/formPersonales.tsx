@@ -93,11 +93,11 @@ const FormSchema = z.object({
         "Primaria_completa",
         "Bachillerato_incompleto",
         "Bachillerato_completo",
-        "Tecnico_tecnológico_incompleto",
-        "Tecnico_tecnológico_completo",
+        "Tecnico_tecnologico_incompleto",
+        "Tecnico_tecnologico_completo",
         "Profesional_incompleto",
         "Profesional_completo",
-        "Carrera_militar_policía",
+        "Carrera_militar_policia",
         "Post_grado_incompleto",
         "Post_grado_completo"
     ], {
@@ -297,11 +297,11 @@ export default function FormPersonales({onHitSubmit}: formPersonalesProps) {
                     <SelectItem value="Primaria_completa">Primaria completa</SelectItem>
                     <SelectItem value="Bachillerato_incompleto">Bachillerato incompleto</SelectItem>
                     <SelectItem value="Bachillerato_completo">Bachillerato completo</SelectItem>
-                    <SelectItem value="TEcnico_tecnológico_incompleto">Técnico / tecnológico incompleto</SelectItem>
-                    <SelectItem value="Técnico_tecnológico_completo">Técnico / tecnológico completo</SelectItem>
+                    <SelectItem value="TEcnico_tecnologico_incompleto">Técnico / tecnológico incompleto</SelectItem>
+                    <SelectItem value="Técnico_tecnologico_completo">Técnico / tecnológico completo</SelectItem>
                     <SelectItem value="Profesional_incompleto">Profesional incompleto</SelectItem>
                     <SelectItem value="Profesional_completo">Profesional completo</SelectItem>
-                    <SelectItem value="Carrera_militar_policía">Carrera militar / policía</SelectItem>
+                    <SelectItem value="Carrera_militar_policia">Carrera militar / policía</SelectItem>
                     <SelectItem value="Post_grado_incompleto">Post-grado incompleto</SelectItem>
                     <SelectItem value="Post_grado_completo">Post-grado completo</SelectItem>
                   </SelectContent>

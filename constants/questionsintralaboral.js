@@ -1,7 +1,7 @@
 // questions.js
 
 
-  export const intralaboralA = {
+  export const dataintralaboralA = {
     sections: [
       {
         title: "Condiciones ambientales del lugar de trabajo",
@@ -713,7 +713,7 @@
     ]
   };
 
-  export const intralaboralB = {
+  export const dataintralaboralB = {
     sections: [
       {
         title: "Condiciones ambientales del lugar de trabajo",
@@ -1284,7 +1284,7 @@
     ]
 };
 
-export const extralaboral = {
+export const dataextralaboral = {
     sections: [
       {
         title: "Condiciones de la zona de vivienda",
@@ -1464,5 +1464,12 @@ export const extralaboral = {
     { value: "casiSiempre", label: "Casi siempre" },
     { value: "algunasVeces", label: "Algunas veces" },
     { value: "casiNunca", label: "Casi nunca" },
+    { value: "nunca", label: "Nunca" }
+  ];
+
+  export const scaleOptions2 = [
+    { value: "siempre", label: "Siempre" },
+    { value: "casiSiempre", label: "Casi siempre" },
+    { value: "aVeces", label: "A veces" },
     { value: "nunca", label: "Nunca" }
   ];
