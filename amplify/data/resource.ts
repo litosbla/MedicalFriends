@@ -90,7 +90,7 @@ const schema = a.schema({
         ciudad: a.string(),
         departamento: a.string()
       }),
-      estrato: a.enum(["1", "2", "3", "4", "5", "6", "Finca", "No_se"]),
+      estrato: a.enum(["ESTRATO_1", "ESTRATO_2", "ESTRATO_3", "ESTRATO_4", "ESTRATO_5", "ESTRATO_6", "FINCA", "NO_SE"]),
       tipoVivienda: a.enum(["Propia", "Arriendo", "Familiar"]),
       personasACargo: a.string(),
       lugarTrabajo: a.customType({

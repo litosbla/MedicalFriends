@@ -108,7 +108,7 @@ const FormSchema = z.object({
         ciudad: z.string().min(2, { message: "Ingrese la ciudad" }),
         departamento: z.string().min(2, { message: "Ingrese el departamento" })
     }),
-    estrato: z.enum(["1", "2", "3", "4", "5", "6", "Finca", "No_se"], {
+    estrato: z.enum(["ESTRATO_1", "ESTRATO_2", "ESTRATO_3", "ESTRATO_4", "ESTRATO_5", "ESTRATO_6", "FINCA", "NO_SE"], {
         required_error: "Seleccione su estrato",
     }),
     tipoVivienda: z.enum(["Propia", "Arriendo", "Familiar"], {
@@ -399,14 +399,14 @@ export default function FormPersonales({onHitSubmit}: formPersonalesProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="1">1</SelectItem>
-                      <SelectItem value="2">2</SelectItem>
-                      <SelectItem value="3">3</SelectItem>
-                      <SelectItem value="4">4</SelectItem>
-                      <SelectItem value="5">5</SelectItem>
-                      <SelectItem value="6">6</SelectItem>
-                      <SelectItem value="Finca">Finca</SelectItem>
-                      <SelectItem value="No_se">No sé</SelectItem>
+                      <SelectItem value="ESTRATO_1">1</SelectItem>
+                      <SelectItem value="ESTRATO_2">2</SelectItem>
+                      <SelectItem value="ESTRATO_3">3</SelectItem>
+                      <SelectItem value="ESTRATO_4">4</SelectItem>
+                      <SelectItem value="ESTRATO_5">5</SelectItem>
+                      <SelectItem value="ESTRATO_6">6</SelectItem>
+                      <SelectItem value="FINCA">Finca</SelectItem>
+                      <SelectItem value="NO_SE">No sé</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

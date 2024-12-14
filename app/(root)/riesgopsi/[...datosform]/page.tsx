@@ -10,7 +10,7 @@ import type { Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import FormIntralaboral from '@/components/formularios/formIntralaboral';
-import { dataintralaboralA,dataintralaboralB, dataextralaboral, scaleOptions,scaleOptions2 } from "@/constants/questionsintralaboral";
+import { dataintralaboralA,dataintralaboralB, dataextralaboral,dataestres, scaleOptions,scaleOptions2 } from "@/constants/questionsintralaboral";
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
@@ -74,7 +74,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         <FormIntralaboral onHitSubmit={subirExtralaboral} titulo='Formulario Extralaboral' surveyData={dataextralaboral} scaleOptions={scaleOptions}/>
         )}
       {estres && (
-        <FormIntralaboral onHitSubmit={subirEstres} titulo='Formulario Estrés' surveyData={dataextralaboral} scaleOptions={scaleOptions2}/>
+        <FormIntralaboral onHitSubmit={subirEstres} titulo='Formulario Estrés' surveyData={dataestres} scaleOptions={scaleOptions2}/>
         )}
      
 

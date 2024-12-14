@@ -1458,6 +1458,185 @@ export const dataextralaboral = {
       }
     ]
   }
+  export const dataestres = {
+    sections: [
+      {
+        title: "Sintomas fisiologicos",
+        questions: [
+          {
+            id: "q1",
+            text: "Dolores en el cuello y espalda o tension muscular",
+            number: 1
+          },
+          {
+            id: "q2",
+            text: "Problemas gastrointestinales, ulcera peptica, acidez, problemas digestivos o del colon",
+            number: 2
+          },
+          {
+            id: "q3",
+            text: "Problemas respiratorios",
+            number: 3
+          },
+          {
+            id: "q4",
+            text: "Dolor de cabeza",
+            number: 4
+          },
+          {
+            id: "q5",
+            text: "Trastornos del sueno como somnolencia durante el dia o desvelo en la noche",
+            number: 5
+          },
+          {
+            id: "q6",
+            text: "Palpitaciones en el pecho o problemas cardiacos",
+            number: 6
+          },
+          {
+            id: "q7",
+            text: "Cambios fuertes del apetito",
+            number: 7
+          },
+          {
+            id: "q8",
+            text: "Problemas relacionados con la funcion de los organos genitales (impotencia, frigidez)",
+            number: 8
+          }
+        ]
+      },
+      {
+        title: "Sintomas de comportamiento social",
+        questions: [
+          {
+            id: "q9",
+            text: "Dificultad en las relaciones familiares",
+            number: 9
+          },
+          {
+            id: "q10",
+            text: "Dificultad para permanecer quieto o dificultad para iniciar actividades",
+            number: 10
+          },
+          {
+            id: "q11",
+            text: "Dificultad en las relaciones con otras personas",
+            number: 11
+          },
+          {
+            id: "q12",
+            text: "Sensacion de aislamiento y desinteres",
+            number: 12
+          }
+        ]
+      },
+      {
+        title: "Sintomas laborales",
+        questions: [
+          {
+            id: "q13",
+            text: "Sentimiento de sobrecarga de trabajo",
+            number: 13
+          },
+          {
+            id: "q14",
+            text: "Dificultad para concentrarse, olvidos frecuentes",
+            number: 14
+          },
+          {
+            id: "q15",
+            text: "Aumento en el numero de accidentes de trabajo",
+            number: 15
+          },
+          {
+            id: "q16",
+            text: "Sentimiento de frustracion, de no haber hecho lo que se queria en la vida",
+            number: 16
+          },
+          {
+            id: "q17",
+            text: "Cansancio, tedio o desgano",
+            number: 17
+          },
+          {
+            id: "q18",
+            text: "Disminucion del rendimiento en el trabajo o poca creatividad",
+            number: 18
+          },
+          {
+            id: "q19",
+            text: "Deseo de no asistir al trabajo",
+            number: 19
+          },
+          {
+            id: "q20",
+            text: "Bajo compromiso o poco interes con lo que se hace",
+            number: 20
+          },
+          {
+            id: "q21",
+            text: "Dificultad para tomar decisiones",
+            number: 21
+          },
+          {
+            id: "q22",
+            text: "Deseo de cambiar de empleo",
+            number: 22
+          }
+        ]
+      },
+      {
+        title: "Sintomas psicoemocionales",
+        questions: [
+          {
+            id: "q23",
+            text: "Sentimiento de soledad y miedo",
+            number: 23
+          },
+          {
+            id: "q24",
+            text: "Sentimiento de irritabilidad, actitudes y pensamientos negativos",
+            number: 24
+          },
+          {
+            id: "q25",
+            text: "Sentimiento de angustia, preocupacion o tristeza",
+            number: 25
+          },
+          {
+            id: "q26",
+            text: "Consumo de drogas para aliviar la tension o los nervios",
+            number: 26
+          },
+          {
+            id: "q27",
+            text: "Sentimientos de que \"no vale nada\", o \"no sirve para nada\"",
+            number: 27
+          },
+          {
+            id: "q28",
+            text: "Consumo de bebidas alcoholicas o cafe o cigarrillo",
+            number: 28
+          },
+          {
+            id: "q29",
+            text: "Sentimiento de que esta perdiendo la razon",
+            number: 29
+          },
+          {
+            id: "q30",
+            text: "Comportamientos rigidos, obstinacion o terquedad",
+            number: 30
+          },
+          {
+            id: "q31",
+            text: "Sensacion de no poder manejar los problemas de la vida",
+            number: 31
+          }
+        ]
+      }
+    ]
+  }
   
   export const scaleOptions = [
     { value: "siempre", label: "Siempre" },
