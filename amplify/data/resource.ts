@@ -50,7 +50,9 @@ const schema = a.schema({
       sede: a.belongsTo("Sedes","sedeId"),
       contadorFormularios: a.float().default(0),
       contadorCitas: a.float().default(0),
-      formulario: a.hasMany("Formulario","citaId")
+      formularioPersonales: a.hasMany("FormularioPersonales","citaId"),
+      formularioIntralaboralA: a.hasMany("FormularioIntralaboralA","citaIdA"),
+
     }).identifier(["otp"]),
   FormularioPersonales: a
     .model({
@@ -129,8 +131,8 @@ const schema = a.schema({
     }).identifier(["formularioId"]).secondaryIndexes((index) => [index("documento").queryField("listarFormPorDocumento")]),
     FormularioIntralaboralA: a
     .model({
-      citaId: a.id().required(),
-      cita: a.belongsTo("Citas","citaId"),
+      citaIdA: a.id().required(),
+      cita: a.belongsTo("Citas","citaIdA"),
       documento: a.id().required(),
       empleado: a.belongsTo("Empleado","documento"),
       formularioId: a.id().required(),
