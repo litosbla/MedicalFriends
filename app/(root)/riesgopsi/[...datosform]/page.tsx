@@ -9,7 +9,7 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
-import FormIntralaboral from '@/components/formularios/formIntralaboral';
+import FormCustom from '@/components/formularios/formIntralaboral';
 import { dataintralaboralA,dataintralaboralB, dataextralaboral,dataestres, scaleOptions,scaleOptions2 } from "@/constants/questionsintralaboral";
 Amplify.configure(outputs);
 
@@ -18,8 +18,7 @@ const client = generateClient<Schema>();
 
 function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     const [otp, numeroDocumento, tipoForm] = params.datosform;
-
-
+    
     const subirPersonales = (data: any) => {
       console.log(data);
       setPersonales(false);
@@ -59,17 +58,17 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       {personales && (<FormPersonales onHitSubmit={subirPersonales} />)}
       {intralaboral && (
         tipoForm === 'A' ? (
-          <FormIntralaboral onHitSubmit={subirIntralaboralA} titulo='Formulario Intralaboral A' surveyData={dataintralaboralA} scaleOptions={scaleOptions} />
+          <FormCustom onHitSubmit={subirIntralaboralA} titulo='Formulario Intralaboral A' surveyData={dataintralaboralA} scaleOptions={scaleOptions} />
         ) : (
-          <FormIntralaboral onHitSubmit={subirIntralaboralB} titulo='Formulario Intralaboral B' surveyData={dataintralaboralB} scaleOptions={scaleOptions} />
+          <FormCustom onHitSubmit={subirIntralaboralB} titulo='Formulario Intralaboral B' surveyData={dataintralaboralB} scaleOptions={scaleOptions} />
         )
       )
       }
       {extralaboral && (
-        <FormIntralaboral onHitSubmit={subirExtralaboral} titulo='Formulario Extralaboral' surveyData={dataextralaboral} scaleOptions={scaleOptions}/>
+        <FormCustom onHitSubmit={subirExtralaboral} titulo='Formulario Extralaboral' surveyData={dataextralaboral} scaleOptions={scaleOptions}/>
         )}
       {estres && (
-        <FormIntralaboral onHitSubmit={subirEstres} titulo='Formulario Estrés' surveyData={dataestres} scaleOptions={scaleOptions2}/>
+        <FormCustom onHitSubmit={subirEstres} titulo='Formulario Estrés' surveyData={dataestres} scaleOptions={scaleOptions2}/>
         )}
      
 

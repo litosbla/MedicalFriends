@@ -44,7 +44,7 @@ interface SurveyData {
 
 type Answers = Record<string, string>;
 
-const FormIntralaboral = ({ onHitSubmit, titulo, scaleOptions, surveyData }: formIntralaboralProps) => {
+const FormCustom = ({ onHitSubmit, titulo, scaleOptions, surveyData }: formIntralaboralProps) => {
     const [answers, setAnswers] = useState<Answers>({});
     const [currentSection, setCurrentSection] = useState(0);
     const [showClientSections, setShowClientSections] = useState<boolean | null>(null);
@@ -55,10 +55,6 @@ const FormIntralaboral = ({ onHitSubmit, titulo, scaleOptions, surveyData }: for
             [questionId]: value
         }));
 
-        // Si es la pregunta sobre atención a clientes
-        // if (questionId === 'clientService') {
-        //     setShowClientSections(value === 'si');
-        // }
     };
 
     // Filtrar secciones basado en la respuesta de atención a clientes
@@ -188,4 +184,4 @@ const FormIntralaboral = ({ onHitSubmit, titulo, scaleOptions, surveyData }: for
     );
 };
 
-export default FormIntralaboral;
+export default FormCustom;
