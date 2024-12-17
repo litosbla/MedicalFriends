@@ -311,7 +311,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     }
 
 
-    const subirIntralaboralA = (data: Record<string, string>) => {
+    const subirIntralaboralA = async (data: Record<string, string>) => {
       console.log(data);
       const { clientService, ...respuestas } = data;
 
@@ -349,7 +349,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
           return {
             ...accDimensiones,
             [dimension]: {
-  
+              puntajeBruto: sumaPuntajes,
               nivelRiesgo: nivelRiesgoDimension,
               puntajeTransformado: puntajeRedondeado,
               
@@ -375,7 +375,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         return {
           ...accDominios,
           [dominio]: {
-   
+            puntajeBruto: sumaPuntajesDominio,
             puntajeTransformado: puntajeDominioRedondeado,
             nivelRiesgo: nivelRiesgoDominio,
             dimensiones: resultadosDimensiones
@@ -399,6 +399,18 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       console.log(puntajeFinal);
       console.log(nivelRiesgoFinal);
 
+      const datosCompletos = {
+        ...resultados,
+        citaIdIntraA: otp,
+        documento: numeroDocumento,
+        formularioId: `${otp}_${numeroDocumento}`,
+        servicioCliente: clientService as 'si' | 'no',
+        puntajeTotal: puntajeFinal,
+        nivelRiesgo: nivelRiesgoFinal
+      };
+
+      console.log(datosCompletos);
+      await client.models.FormularioIntralaboralA.create(datosCompletos);
      
       setIntralaboral(false);
       setExtralaboral(true);
@@ -406,7 +418,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     };
 
 
-    const subirIntralaboralB = (data: Record<string, string>) => {
+    const subirIntralaboralB = async (data: Record<string, string>) => {
       const { clientService, ...respuestas } = data;    
       // Preguntas con puntuación inversa
       const reversedQuestions = new Set(
@@ -438,7 +450,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
           return {
             ...accDimensiones,
             [dimension]: {
-      
+              puntajeBruto: sumaPuntajes,
               puntajeTransformado: puntajeRedondeado,
               nivelRiesgo: nivelRiesgoDimension,
             
@@ -462,6 +474,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         return {
           ...accDominios,
           [dominio]: {
+            puntajeBruto: sumaPuntajesDominio,
             puntajeTransformado: puntajeDominioRedondeado,
             nivelRiesgo: nivelRiesgoDominio,
             dimensiones: resultadosDimensiones
@@ -484,7 +497,16 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       console.log(scores);
       console.log(puntajeFinal);
       console.log(nivelRiesgoFinal);
+      const datosCompletos = {
+        ...resultados,
+        citaIdIntraB: otp,
+        documento: numeroDocumento,
+        formularioId: `${otp}_${numeroDocumento}`,
+        servicioCliente: clientService as 'si' | 'no'
+      };
 
+      console.log(datosCompletos);
+      await client.models.FormularioIntralaboralB.create(datosCompletos);
       setIntralaboral(false);
       setExtralaboral(true);
  
@@ -679,8 +701,8 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
 
 
     const [personales, setPersonales] = useState(false);
-    const [intralaboral, setIntralaboral] = useState(true);
-    const [extralaboral, setExtralaboral] = useState(false);
+    const [intralaboral, setIntralaboral] = useState(false);
+    const [extralaboral, setExtralaboral] = useState(true);
     const [estres, setEstres] = useState(false);
 
   return (

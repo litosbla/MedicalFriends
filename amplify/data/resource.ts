@@ -140,26 +140,32 @@ const schema = a.schema({
         controlSobreTrabajo: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
+          puntajeBruto: a.float(),
           dimensiones: a.customType({
             capacitacionEntrenamiento: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             claridadRol: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             controlAutonomia: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             oportunidadesDesarrollo: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             participacionCambios: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             })
           })
         }),
@@ -168,38 +174,47 @@ const schema = a.schema({
         demandasTrabajo: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
+          puntajeBruto: a.float(),
           dimensiones: a.customType({
             consistenciaRol: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             demandaCargaMental: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             demandasAmbientalesCarga: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             demandasCuantitativas: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             demandasEmocionales: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             demandasJornada: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             influenciaTrabajo: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             responsabilidadCargo: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             })
           })
         }),
@@ -208,22 +223,27 @@ const schema = a.schema({
         liderazgoRelacionesSociales: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
+          puntajeBruto: a.float(),
           dimensiones: a.customType({
             caracteristicasLiderazgo: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             relacionColaboradores: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             relacionesSociales: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             retroalimentacionDesempeno: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             })
           })
         }),
@@ -232,14 +252,17 @@ const schema = a.schema({
         recompensas: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
+          puntajeBruto: a.float(),
           dimensiones: a.customType({
             recompensasPertenencia: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             }),
             recompensasReconocimiento: a.customType({
               nivelRiesgo: a.string(),
               puntajeTransformado: a.float(),
+              puntajeBruto: a.float(),
             })
           })
         }),
@@ -253,30 +276,35 @@ const schema = a.schema({
       citaIdIntraB: a.id().required(),
       cita: a.belongsTo("Citas","citaIdIntraB"),
       documento: a.id().required(),
-      
       controlSobreTrabajo: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
+        puntajeBruto: a.float(),
         dimensiones: a.customType({
           capacitacionEntrenamiento: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           claridadRol: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           controlAutonomia: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           oportunidadesDesarrollo: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           participacionCambios: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           })
         })
       }),
@@ -285,38 +313,47 @@ const schema = a.schema({
       demandasTrabajo: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
+        puntajeBruto: a.float(),
         dimensiones: a.customType({
           consistenciaRol: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           demandaCargaMental: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           demandasAmbientalesCarga: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           demandasCuantitativas: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           demandasEmocionales: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           demandasJornada: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           influenciaTrabajo: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           responsabilidadCargo: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           })
         })
       }),
@@ -325,22 +362,27 @@ const schema = a.schema({
       liderazgoRelacionesSociales: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
+        puntajeBruto: a.float(),
         dimensiones: a.customType({
           caracteristicasLiderazgo: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           relacionColaboradores: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           relacionesSociales: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           retroalimentacionDesempeno: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           })
         })
       }),
@@ -349,14 +391,17 @@ const schema = a.schema({
       recompensas: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
+        puntajeBruto: a.float(),
         dimensiones: a.customType({
           recompensasPertenencia: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           }),
           recompensasReconocimiento: a.customType({
             nivelRiesgo: a.string(),
             puntajeTransformado: a.float(),
+            puntajeBruto: a.float(),
           })
         })
       }),
@@ -371,7 +416,58 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdExtra"),
       documento: a.id().required(),
       formularioId: a.id().required(),
- 
+      
+      // Características de vivienda
+      caracteristicasVivienda: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Comunicación y relaciones
+      comunicacionRelaciones: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Desplazamiento vivienda
+      desplazamientoVivienda: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Influencia entorno
+      influenciaEntorno: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Relaciones familiares
+      relacionesFamiliares: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Situación económica
+      situacionEconomica: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Tiempo fuera del trabajo
+      tiempoFueraTrabajo: a.customType({
+        nivelRiesgo: a.string(),
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+      puntajeTotal: a.float(),
+      nivelRiesgoTotal: a.string(),
+
     }).identifier(["formularioId"]),
     FormularioEstres: a
     .model({
@@ -379,7 +475,33 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdEstres"),
       documento: a.id().required(),
       formularioId: a.id().required(),
-      servicioCliente: a.enum(["si", "no"]),
+
+      // Comunicación y relaciones
+      comunicacionRelaciones: a.customType({
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float(),
+      }),
+
+      // Relaciones familiares
+      relacionesFamiliares: a.customType({
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Situación económica
+      situacionEconomica: a.customType({
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+
+      // Tiempo fuera del trabajo
+      tiempoFueraTrabajo: a.customType({
+        puntajeBruto: a.float(),
+        puntajeTransformado: a.float()
+      }),
+      puntajeTotal: a.float(),
+      nivelRiesgoTotal: a.string(),
+
     }).identifier(["formularioId"])
 }).authorization((allow) => [allow.publicApiKey()]);
 
