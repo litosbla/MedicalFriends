@@ -1,9 +1,9 @@
 'use client'
 import FormPersonales from '@/components/formularios/formPersonales';
 import { set } from 'date-fns';
-import { Home } from 'lucide-react';
+import { CheckCircle, Home } from 'lucide-react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, {  useState, useEffect } from 'react'
 
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
@@ -12,7 +12,9 @@ import outputs from "@/amplify_outputs.json";
 import FormCustom from '@/components/formularios/formIntralaboral';
 import { dataintralaboralA,dataintralaboralB, dataextralaboral,dataestres, scaleOptions,scaleOptions2 } from "@/constants/questionsintralaboral";
 import { getNivelRiesgo, getRangosRiesgoExtralaboral, getRangosRiesgoEstres, getRangosExtralaboralFinal, getRangosIntralaboralDimension, getRangosIntralaboralDominio, getRangosIntralaboralTotal } from '@/constants/risklevels';
-import { error } from 'console';
+import {  useToast } from '@/hooks/use-toast';
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from 'next/navigation';
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
@@ -290,7 +292,9 @@ type DimensionesIntralaboral =
 
   
 function PaginaFormulario({params}: {params: {datosform: string[]}}) {
-    
+   
+    const { toast } = useToast()
+    const router = useRouter();
     const [otp, numeroDocumento, tipoForm] = params.datosform;
   
 
@@ -502,7 +506,9 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         citaIdIntraB: otp,
         documento: numeroDocumento,
         formularioId: `${otp}_${numeroDocumento}`,
-        servicioCliente: clientService as 'si' | 'no'
+        servicioCliente: clientService as 'si' | 'no',
+        puntajeTotal: puntajeFinal,
+        nivelRiesgo: nivelRiesgoFinal
       };
 
       console.log(datosCompletos);
@@ -514,7 +520,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
 
 
 
-    const subirExtralaboral = (data: Record<string, string>) => {
+    const subirExtralaboral = async (data: Record<string, string>) => {
 
     
       // Determinar qué preguntas usan puntuación inversa
@@ -548,12 +554,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
             puntajeBruto: sumaPuntajes,
             puntajeTransformado: puntajeRedondeado,
             nivelRiesgo:nivelRiesgo,
-            preguntas: info.preguntas.reduce((acc, pregunta) => {
-              return {
-                ...acc,
-                [pregunta]: scores[pregunta] || 0
-              };
-            }, {})
+           
           }
         };
       }, {});
@@ -569,13 +570,24 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       console.log(puntajeFinal);
       console.log(nivelRiesgo);
     
-      
+      const datosCompletos = {
+        ...puntajesDimensiones,
+        citaIdExtra: otp,
+        documento: numeroDocumento,
+        formularioId: `${otp}_${numeroDocumento}`,
+        puntajeTotal: puntajeFinal,
+        nivelRiesgo: nivelRiesgo
+      };
+
+      console.log(datosCompletos);
+      await client.models.FormularioExtralaboral.create(datosCompletos);
+     
       setExtralaboral(false);
       setEstres(true);
     }
 
 
-    const subirEstres = (data:  Record<string, string>) => {
+    const subirEstres = async (data:  Record<string, string>) => {
       const scoringTypes: Record<string, Record<string, number>> = {
         tipo1: {
           'siempre': 9,
@@ -693,10 +705,29 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       console.log(nivelRiesgo);
       console.log(puntajeFinal);
       console.log(puntajesDimensiones);
-      setPersonales(false);
-      setIntralaboral(false);
-      
-    
+      const datosCompletos = {
+        ...puntajesDimensiones,
+        citaIdEstres: otp,
+        documento: numeroDocumento,
+        formularioId: `${otp}_${numeroDocumento}`,
+        puntajeTotal: puntajeFinal,
+        nivelRiesgo: nivelRiesgo
+      };
+
+      console.log(datosCompletos);
+      await client.models.FormularioEstres.create(datosCompletos);
+     
+      toast({
+        title: "finalizado",
+        description: "Friday, February 10, 2023 at 5:57 PM",
+        action: (
+          <ToastAction altText="Go to home" onClick={() => router.push('/')}>
+            Ir a inicio
+          </ToastAction>
+        ),
+      })    
+      setEstres(false);
+      setUltimaPantalla(true);
     }
 
 
@@ -704,6 +735,16 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     const [intralaboral, setIntralaboral] = useState(false);
     const [extralaboral, setExtralaboral] = useState(true);
     const [estres, setEstres] = useState(false);
+    const [ultimapantalla, setUltimaPantalla] = useState(false);
+    useEffect(() => {
+      if (ultimapantalla) {
+        const timer = setTimeout(() => {
+          router.push('/');
+        }, 3000); // Redirige después de 3 segundos
+    
+        return () => clearTimeout(timer);
+      }
+    }, [ultimapantalla]);
 
   return (
     <div className="w-full flex justify-center p-6 bg-white min-h-max">
@@ -725,7 +766,24 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       {estres && (
         <FormCustom onHitSubmit={subirEstres} titulo='Formulario Estrés' surveyData={dataestres} scaleOptions={scaleOptions2}/>
         )}
-     
+
+      {ultimapantalla && (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-white to-gray-100">
+          <div className="text-center space-y-4 p-8 rounded-lg">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto animate-bounce" />
+            <h2 className="text-2xl font-bold text-gray-800">¡Proceso Completado!</h2>
+            <p className="text-gray-600">El formulario se ha guardado exitosamente</p>
+            <div className="mt-6">
+              <button 
+                onClick={() => router.push('/')}
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Volver al inicio
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
 
     </div>
