@@ -380,19 +380,7 @@ const schema = a.schema({
       documento: a.id().required(),
       formularioId: a.id().required(),
       servicioCliente: a.enum(["si", "no"]),
-    }).identifier(["formularioId"]),
-    Conglomerado: a
-    .model({
-      citaIdConglomerado: a.id().required(),
-      cita: a.belongsTo("Citas","citaIdConglemerado"),
-      documento: a.id().required(),
-      conglomeradoId: a.id().required(),
-      intralaboralA: a.float(),
-      intralaboralB: a.float(),
-      extralaboral: a.float(),
-      estres: a.float(),
-    }).identifier(["conglomeradoId"]),
-
+    }).identifier(["formularioId"])
 }).authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
