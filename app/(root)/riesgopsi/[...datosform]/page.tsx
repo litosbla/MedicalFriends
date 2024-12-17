@@ -414,7 +414,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      await client.models.FormularioIntralaboralA.create(datosCompletos);
+      // await client.models.FormularioIntralaboralA.create(datosCompletos);
      
       setIntralaboral(false);
       setExtralaboral(true);
@@ -512,7 +512,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      await client.models.FormularioIntralaboralB.create(datosCompletos);
+      // await client.models.FormularioIntralaboralB.create(datosCompletos);
       setIntralaboral(false);
       setExtralaboral(true);
  
@@ -580,7 +580,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      await client.models.FormularioExtralaboral.create(datosCompletos);
+      // await client.models.FormularioExtralaboral.create(datosCompletos);
      
       setExtralaboral(false);
       setEstres(true);
@@ -715,7 +715,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      await client.models.FormularioEstres.create(datosCompletos);
+      // await client.models.FormularioEstres.create(datosCompletos);
      
       toast({
         title: "finalizado",
