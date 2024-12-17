@@ -576,11 +576,11 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         documento: numeroDocumento,
         formularioId: `${otp}_${numeroDocumento}`,
         puntajeTotal: puntajeFinal,
-        nivelRiesgo: nivelRiesgo
+        nivelRiesgoTotal: nivelRiesgo
       };
 
       console.log(datosCompletos);
-      // await client.models.FormularioExtralaboral.create(datosCompletos);
+      await client.models.FormularioExtralaboral.create(datosCompletos);
      
       setExtralaboral(false);
       setEstres(true);
