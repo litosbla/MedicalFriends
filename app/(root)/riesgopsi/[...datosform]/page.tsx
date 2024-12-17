@@ -414,7 +414,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      // await client.models.FormularioIntralaboralA.create(datosCompletos);
+      await client.models.FormularioIntralaboralA.create(datosCompletos);
      
       setIntralaboral(false);
       setExtralaboral(true);
@@ -512,7 +512,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      // await client.models.FormularioIntralaboralB.create(datosCompletos);
+      await client.models.FormularioIntralaboralB.create(datosCompletos);
       setIntralaboral(false);
       setExtralaboral(true);
  
@@ -715,7 +715,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
       };
 
       console.log(datosCompletos);
-      // await client.models.FormularioEstres.create(datosCompletos);
+      await client.models.FormularioEstres.create(datosCompletos);
      
       toast({
         title: "finalizado",
@@ -731,9 +731,9 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
     }
 
 
-    const [personales, setPersonales] = useState(false);
+    const [personales, setPersonales] = useState(true);
     const [intralaboral, setIntralaboral] = useState(false);
-    const [extralaboral, setExtralaboral] = useState(true);
+    const [extralaboral, setExtralaboral] = useState(false);
     const [estres, setEstres] = useState(false);
     const [ultimapantalla, setUltimaPantalla] = useState(false);
     useEffect(() => {

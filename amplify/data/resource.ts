@@ -1,8 +1,8 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
-import { CfnInstanceStorageConfig } from "aws-cdk-lib/aws-connect";
-import { CfnOrganizationAdmin } from "aws-cdk-lib/aws-detective";
-import { CodeSigningConfig } from "aws-cdk-lib/aws-lambda";
-import { prependListener } from "process";
+// import { CfnInstanceStorageConfig } from "aws-cdk-lib/aws-connect";
+// import { CfnOrganizationAdmin } from "aws-cdk-lib/aws-detective";
+// import { CodeSigningConfig } from "aws-cdk-lib/aws-lambda";
+// import { prependListener } from "process";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
