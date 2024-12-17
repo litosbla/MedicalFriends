@@ -438,13 +438,10 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
           return {
             ...accDimensiones,
             [dimension]: {
-              puntajeBruto: sumaPuntajes,
+      
               puntajeTransformado: puntajeRedondeado,
               nivelRiesgo: nivelRiesgoDimension,
-              preguntas: infoDimension.preguntas.reduce((acc, pregunta) => ({
-                ...acc,
-                [pregunta]: scores[pregunta] || 0
-              }), {})
+            
             }
           };
         }, {});
@@ -465,7 +462,6 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         return {
           ...accDominios,
           [dominio]: {
-            puntajeBruto: sumaPuntajesDominio,
             puntajeTransformado: puntajeDominioRedondeado,
             nivelRiesgo: nivelRiesgoDominio,
             dimensiones: resultadosDimensiones
@@ -481,7 +477,7 @@ function PaginaFormulario({params}: {params: {datosform: string[]}}) {
         return total + dominio.puntajeBruto;
       }, 0);
     
-      const puntajeFinal = Math.round(((sumaPuntajesTotal / 492) * 100) * 10) / 10;
+      const puntajeFinal = Math.round(((sumaPuntajesTotal / 388) * 100) * 10) / 10;
       const nivelRiesgoFinal = getNivelRiesgo(puntajeFinal, getRangosIntralaboralTotal(tipoForm as TipoForm));
       
       console.log('resultado final o puntaje final');

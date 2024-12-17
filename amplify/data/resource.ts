@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { CfnInstanceStorageConfig } from "aws-cdk-lib/aws-connect";
+import { CfnOrganizationAdmin } from "aws-cdk-lib/aws-detective";
 import { CodeSigningConfig } from "aws-cdk-lib/aws-lambda";
 import { prependListener } from "process";
 
@@ -58,6 +59,7 @@ const schema = a.schema({
     }).identifier(["otp"]),
     FormularioPersonales: a
       .model({
+        citaId: a.id().required(),
         cita: a.belongsTo("Citas","citaId"),
         documento: a.id(),
         formularioId: a.id().required(),
@@ -131,7 +133,10 @@ const schema = a.schema({
       }).identifier(["formularioId"]),
     FormularioIntralaboralA: a
       .model({
-        // Dominio: Control Sobre Trabajo
+        formularioId: a.id().required(),
+        citaIdIntraA: a.id().required(),
+        cita: a.belongsTo("Citas","citaIdIntraA"),
+        documento: a.id().required(),
         controlSobreTrabajo: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -159,7 +164,7 @@ const schema = a.schema({
           })
         }),
     
-        // Dominio: Demandas del Trabajo
+
         demandasTrabajo: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -199,7 +204,7 @@ const schema = a.schema({
           })
         }),
     
-        // Dominio: Liderazgo y Relaciones Sociales
+       
         liderazgoRelacionesSociales: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -223,7 +228,7 @@ const schema = a.schema({
           })
         }),
     
-        // Dominio: Recompensas
+      
         recompensas: a.customType({
           nivelRiesgo: a.string(),
           puntajeTransformado: a.float(),
@@ -240,14 +245,15 @@ const schema = a.schema({
         }),
         puntajeTotal: a.float(),
         nivelRiesgoTotal: a.string(),
-        formularioId: a.id().required(),
-        citaIdIntraA: a.id().required(),
-        cita: a.belongsTo("Citas","citaIdIntraA"),
-        documento: a.id().required(),
+        servicioCliente: a.enum(["si", "no"]),
       }).identifier(["formularioId"]),
     FormularioIntralaboralB: a
     .model({
-      // Dominio: Control Sobre Trabajo
+      formularioId: a.id().required(),
+      citaIdIntraB: a.id().required(),
+      cita: a.belongsTo("Citas","citaIdIntraB"),
+      documento: a.id().required(),
+      
       controlSobreTrabajo: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
@@ -275,7 +281,7 @@ const schema = a.schema({
         })
       }),
   
-      // Dominio: Demandas del Trabajo
+      
       demandasTrabajo: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
@@ -315,7 +321,7 @@ const schema = a.schema({
         })
       }),
   
-      // Dominio: Liderazgo y Relaciones Sociales
+    
       liderazgoRelacionesSociales: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
@@ -339,7 +345,7 @@ const schema = a.schema({
         })
       }),
   
-      // Dominio: Recompensas
+    
       recompensas: a.customType({
         nivelRiesgo: a.string(),
         puntajeTransformado: a.float(),
@@ -356,10 +362,8 @@ const schema = a.schema({
       }),
       puntajeTotal: a.float(),
       nivelRiesgoTotal: a.string(),
-      formularioId: a.id().required(),
-      citaIdIntraB: a.id().required(),
-      cita: a.belongsTo("Citas","citaIdIntraB"),
-      documento: a.id().required(),
+      servicioCliente: a.enum(["si", "no"])
+      
     }).identifier(["formularioId"]),
     FormularioExtralaboral: a
     .model({
@@ -367,37 +371,7 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdExtra"),
       documento: a.id().required(),
       formularioId: a.id().required(),
-      p1: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p2: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p3: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p4: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p5: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p6: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p7: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p8: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p9: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p10: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p11: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p12: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p13: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p14: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p15: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p16: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p17: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p18: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p19: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p20: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p21: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p22: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p23: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p24: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p25: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p26: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p27: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p28: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p29: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p30: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p31: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
+ 
     }).identifier(["formularioId"]),
     FormularioEstres: a
     .model({
@@ -405,129 +379,6 @@ const schema = a.schema({
       cita: a.belongsTo("Citas","citaIdEstres"),
       documento: a.id().required(),
       formularioId: a.id().required(),
-      p1: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p2: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p3: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p4: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p5: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p6: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p7: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p8: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p9: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p10: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p11: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p12: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p13: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p14: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p15: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p16: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p17: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p18: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p19: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p20: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p21: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p22: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p23: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p24: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p25: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p26: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p27: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p28: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p29: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p30: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p31: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p32: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p33: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p34: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p35: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p36: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p37: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p38: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p39: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p40: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p41: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p42: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p43: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p44: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p45: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p46: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p47: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p48: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p49: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p50: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p51: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p52: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p53: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p54: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p55: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p56: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p57: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p58: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p59: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p60: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p61: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p62: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p63: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p64: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p65: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p66: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p67: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p68: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p69: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p70: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p71: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p72: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p73: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p74: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p75: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p76: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p77: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p78: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p79: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p80: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p81: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p82: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p83: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p84: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p85: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p86: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p87: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p88: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p89: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p90: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p91: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p92: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p93: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p94: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p95: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p96: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p97: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p98: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p99: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p100: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p101: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p102: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p103: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p104: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p105: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p106: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p107: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p108: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p109: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p110: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p111: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p112: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p113: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p114: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p115: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p116: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p117: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p118: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p119: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p120: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p121: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p122: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
-      p123: a.enum(["nunca", "casiNunca", "algunasVeces", "casiSiempre", "siempre"]),
       servicioCliente: a.enum(["si", "no"]),
     }).identifier(["formularioId"]),
     Conglomerado: a
